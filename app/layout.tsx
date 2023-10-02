@@ -22,14 +22,13 @@ const sahel = localFont({
   variable: '--font-sahel'
 })
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
-    <html lang="en" dir='rtl'>
-      <body className={`${sahel.variable} font-sans bg-background`}>{children}</body>
+    <html lang="en" dir='ltr'>
+      <body className={`${sahel.variable} font-sans bg-background`}>
+        {children}
+      </body>
     </html>
   )
 }

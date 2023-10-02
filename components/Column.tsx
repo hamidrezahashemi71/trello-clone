@@ -32,13 +32,13 @@ const Column = (props: Props) => {
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className={`pb-2 p-2 rounded-2xl shadow-sm ${
+                                className={`columnContainer ${
                                     snapshot.isDraggingOver ? 'bg-green-200' : 'bg-white/50'
                                 }`}
                             >
-                                <h2 className="flex justify-between font-bold text-xl p-2">
+                                <h2 className="columnHeaderText">
                                     {idToColumnText[id]}
-                                    <span className="text-gray-500 font-normal bg-gray-200 rounded-full px-2 py-1 text-sm">
+                                    <span className="columnHeaderBadge">
                                         {todos.length}
                                     </span>
                                 </h2>
@@ -68,7 +68,7 @@ const Column = (props: Props) => {
                                     {provided.placeholder}
 
                                     <div className="flex items-end justify-end p-2">
-                                        <button className="text-green-500 hover:text-green-600">
+                                        <button className="plusButtonContainer">
                                             <PlusCircleIcon className="w-10 h-10" />
                                         </button>
                                     </div>

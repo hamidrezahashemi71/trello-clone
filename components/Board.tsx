@@ -2,35 +2,53 @@
 
 import { useBoardStore } from '@/store/BoardStore'
 import { useEffect } from 'react'
-import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd'
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import Column from './Column'
 import { StrictModeDroppable } from '@/lib/StrictModeDroppable'
 
 const Board = () => {
 
-    const [board, getBoard] = useBoardStore((state) => [
+    const [board, getBoard, setBoardState] = useBoardStore((state) => [
         state.board,
         state.getBoard,
+        state.setBoardState
     ])
 
     useEffect(() => {
         getBoard()
     }, [getBoard])
 
-    // console.log("BOARD", board)
-
     const handleOnDragEnd = (result: DropResult) => {
 
+        const { destination, source, type } = result
+
+        // ERROR HANDLING: user drops outside the board
+        if(!destination) return
+
+        // LOGIC: handling column drag
+        if(type === 'column') {
+            const entries = Array.from(board.columns.entries())
+            const [removed] = entries.splice(source.index, 1)
+            entries.splice(destination.index, 0, removed)
+            const rearrangedColumns = new Map(entries)
+            setBoardState({
+                ...board, columns: rearrangedColumns
+            })
+        }
     }
 
     return (
         <DragDropContext onDragEnd={handleOnDragEnd}>
-            <StrictModeDroppable droppableId='board' direction='horizontal' type='column'>
+            <StrictModeDroppable 
+                droppableId='board' 
+                direction='horizontal' 
+                type='column'
+            >
                 {(provided, snapshot) => (
                     <div 
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        className='grid grid-cols-1 md:grid-cols-3 gap-5 max-w-7xl mx-auto'
+                        className='boardContainer'
                     >
                         {Array.from(board.columns.entries()).map(([id, column], index) => {
                             return (

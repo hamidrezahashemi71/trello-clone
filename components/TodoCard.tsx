@@ -19,17 +19,19 @@ const TodoCard = (props: Props) => {
             {...draggableProps}
             {...dragHandleProps}
             ref={innerRef}
-            className="bg-white rounded-md space-y-2 drop-shadow-md p-2"
+            className="todoCardContainer"
         >
-            <div className="flex justify-between items-center p-5">
+            <div className="todoContent">
                 <p >
                     {todo.title}
                 </p>
 
-                <button className="text-red-500 hover:text-red-600">
+                <button className="minusButtonContainer">
                     <XCircleIcon className="mr-5 w-8 h-8"/>
                 </button>
             </div>
+
+            {/* {imageUrl && ()} */}
         </div>
     )
 }

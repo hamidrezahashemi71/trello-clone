@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    /* HEADER */
+    .headerContainer {
+        @apply flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl
+    }
+    .headerGradientBg {
+        @apply absolute top-0 left-0 w-full h-96 bg-gradient-to-br from-pink-400 to-primary rounded-md filter blur-3xl opacity-50 -z-50
+    }
+    .headerSearchForm {
+        @apply flex items-center space-x-5 bg-white rounded-md p-2 shadow-md flex-1 md:flex-initial
+    }
+    .headerLeftContainer {
+        @apply flex items-center flex-1 space-x-5 justify-start w-full
+    }
+    .headerLogoImage {
+        @apply w-44 md:w-56 pb-10 md:pb-0 object-contain
+    }
+
+    /* SUGGESTION */
+    .suggestionContainer {
+        @apply flex items-center justify-center px-5 py-2 md:py-5
+    }
+    .suggestionText {
+        @apply flex items-center w-fit max-w-3xl p-5 bg-white text-sm text-primary font-light italic rounded-xl shadow-xl
+    }
+    .avatarIcon {
+        @apply inline-block w-10 h-10 text-primary ml-1
+    }
+
+    /* BOARD */
+    .boardContainer {
+        @apply grid grid-cols-1 md:grid-cols-3 gap-5 max-w-7xl mx-auto
+    }
+    .columnContainer {
+        @apply pb-2 p-2 rounded-2xl shadow-sm
+    }
+    .columnHeaderText {
+        @apply flex justify-between font-bold text-xl p-2
+    }
+    .columnHeaderBadge {
+        @apply text-gray-500 font-normal bg-gray-200 rounded-full px-2 py-1 text-sm
+    }
+    .plusButtonContainer {
+        @apply text-green-500 hover:text-green-600
+    }
+    .minusButtonContainer {
+        @apply text-red-500 hover:text-red-600
+    }
+    .todoCardContainer {
+        @apply bg-white rounded-md space-y-2 drop-shadow-md p-2
+    }
+    .todoContent {
+        @apply flex justify-between items-center p-5
+    }
+}
