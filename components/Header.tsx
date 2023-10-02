@@ -1,5 +1,6 @@
 "use client"
 
+import { useBoardStore } from '@/store/BoardStore'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import React from 'react'
@@ -7,6 +8,11 @@ import Avatar from 'react-avatar'
 
 const Header = () => {
     
+    const [searchString, setSearchString] = useBoardStore((state) => [
+        state.searchString,
+        state.setSearchString
+    ])
+
     return (
         <header>
             <div className='headerContainer'>
@@ -20,6 +26,8 @@ const Header = () => {
                             type="text" 
                             placeholder='جستجو'
                             className='flex-1 outline-none p-2'
+                            value={searchString}
+                            onChange={e => setSearchString(e.target.value)}
                         />
 
                         <button hidden>

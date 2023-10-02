@@ -2,6 +2,7 @@ import { StrictModeDroppable } from "@/lib/StrictModeDroppable"
 import { PlusCircleIcon } from "@heroicons/react/20/solid"
 import { Draggable, Droppable } from "react-beautiful-dnd"
 import TodoCard from "./TodoCard"
+import { useBoardStore } from "@/store/BoardStore"
 
 type Props = {
     id: TypedColumn
@@ -18,6 +19,10 @@ const idToColumnText: { [key in TypedColumn] : string } = {
 const Column = (props: Props) => {
 
     const { id, todos, index } = props
+
+    const [searchString] = useBoardStore((state) => [
+        state.searchString
+    ])
 
     return (
         <Draggable draggableId={id} index={index}>
@@ -39,12 +44,21 @@ const Column = (props: Props) => {
                                 <h2 className="columnHeaderText">
                                     {idToColumnText[id]}
                                     <span className="columnHeaderBadge">
-                                        {todos.length}
+                                        {
+                                            !searchString ? 
+                                                todos.length 
+                                                : 
+                                                todos.filter((todo) => todo.title.toLowerCase().includes(searchString.toLowerCase())).length
+                                        }
                                     </span>
                                 </h2>
 
                                 <div className="space-y-2">
                                     {todos.map((todo, index) => {
+
+                                        if(searchString && !todo.title.toLowerCase().includes(searchString.toLowerCase())) 
+                                            return null
+
                                         return (
                                             <Draggable
                                                 key={todo.$id}
