@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" dir='rtl'>
-      <body className={`${sahel.variable} font-sans`}>{children}</body>
+      <body className={`${sahel.variable} font-sans bg-background`}>{children}</body>
     </html>
   )
 }
