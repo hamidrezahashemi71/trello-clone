@@ -2,6 +2,7 @@ import { UserCircleIcon } from '@heroicons/react/20/solid'
 import React from 'react'
 
 const Suggestion = () => {
+  
   return (
     <section className='flex items-center justify-center px-5 py-2 md:py-5'>
         <p className='flex items-center w-fit max-w-3xl p-5 bg-white text-sm text-primary font-light italic rounded-xl shadow-xl'>
