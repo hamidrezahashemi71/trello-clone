@@ -8,10 +8,11 @@ import { StrictModeDroppable } from '@/lib/StrictModeDroppable'
 
 const Board = () => {
 
-    const [board, getBoard, setBoardState] = useBoardStore((state) => [
+    const [board, getBoard, setBoardState, updateTodoInDB] = useBoardStore((state) => [
         state.board,
         state.getBoard,
-        state.setBoardState
+        state.setBoardState,
+        state.updateTodoInDB
     ])
 
     useEffect(() => {
@@ -35,6 +36,61 @@ const Board = () => {
                 ...board, columns: rearrangedColumns
             })
         }
+
+        // LOGIC: handling card drag
+        if(type === 'card') {
+            const columns = Array.from(board.columns)
+            const startColumnIndex = columns[Number(source.droppableId)]
+            const endColumnIndex = columns[Number(destination.droppableId)]
+            const startColumn: Column = {
+                id: startColumnIndex[0],
+                todos: startColumnIndex[1].todos
+            }
+            const endColumn: Column = {
+                id: endColumnIndex[0],
+                todos: endColumnIndex[1].todos
+            }
+            console.log("startColumn",startColumn)
+            console.log("endColumn",endColumn)
+    
+            if(!startColumn || !endColumn) return
+            if(source.index === destination.index && startColumn === endColumn) return
+    
+            const newTodos = startColumn.todos
+            const [movedTodo] = newTodos.splice(source.index, 1)
+    
+            if(startColumn.id === endColumn.id) {
+                // drag & drop task in same column
+                newTodos.splice(destination.index, 0, movedTodo)
+                const newColumns = new Map(board.columns)
+                const newColumn = {
+                    id: startColumn.id,
+                    todos: newTodos
+                }
+                
+                newColumns.set(startColumn.id, newColumn)
+                setBoardState({...board, columns: newColumns})
+            } else {
+                // drag & drop task to another column
+                const endTodos = Array.from(endColumn.todos)
+                endTodos.splice(destination.index, 0, movedTodo)
+                const newColumns = new Map(board.columns)
+                const newColumn = {
+                    id: startColumn.id,
+                    todos: newTodos
+                }
+    
+                newColumns.set(startColumn.id, newColumn)
+                newColumns.set(endColumn.id, {
+                    id: endColumn.id,
+                    todos: endTodos
+                })
+                // LOGIC: updating the database
+                updateTodoInDB(movedTodo, endColumn.id)
+                setBoardState({...board, columns: newColumns})
+            }
+        }
+
     }
 
     return (
