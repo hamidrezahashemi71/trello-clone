@@ -27,8 +27,8 @@ export const getTodosGroupedByColumn = async() => {
         return acc
 
     }, new Map<TypedColumn, Column>) 
-    console.log("TODOS", todos)
-    console.log("COLUMNS", columns)
+    // console.log("TODOS", todos)
+    // console.log("COLUMNS", columns)
 
     // if columns does not have todo, inprogress or done, add them with empty array
     const columnTypes: TypedColumn[] = ['todo', 'inprogress', 'done']
