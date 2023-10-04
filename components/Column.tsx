@@ -20,8 +20,9 @@ const Column = (props: Props) => {
 
     const { id, todos, index } = props
 
-    const [searchString] = useBoardStore((state) => [
-        state.searchString
+    const [searchString, deleteTask] = useBoardStore((state) => [
+        state.searchString,
+        state.deleteTask
     ])
 
     return (
@@ -73,6 +74,7 @@ const Column = (props: Props) => {
                                                         innerRef={provided.innerRef}
                                                         draggableProps={provided.draggableProps}
                                                         dragHandleProps={provided.dragHandleProps}
+                                                        deleteTask={deleteTask}
                                                     />
                                                 )}
                                             </Draggable>

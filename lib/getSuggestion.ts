@@ -10,9 +10,13 @@ export const getSuggestion = async(board: Board) => {
         },
         body: JSON.stringify({ todos })
     })
-    
-    const GPTdata = await response.json()
-    const { content } = GPTdata
-    
-    return content
+
+    if (response.ok) {
+        const GPTdata = await response.json()
+        const { content } = GPTdata
+        return content
+    } else {
+        const content = 'وظایف شما به شرح زیر است:'
+        return content
+    }
 }

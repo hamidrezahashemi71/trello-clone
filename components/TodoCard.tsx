@@ -8,11 +8,12 @@ type Props = {
     innerRef: (element: HTMLElement | null) => void
     draggableProps: DraggableProvidedDraggableProps
     dragHandleProps: DraggableProvidedDragHandleProps | null | undefined
+    deleteTask: (taskIndex: number, todoId: Todo, id: TypedColumn) => void
 }
 
 const TodoCard = (props: Props) => {
 
-    const { todo, index, id, innerRef, dragHandleProps, draggableProps } = props
+    const { todo, index, id, innerRef, dragHandleProps, draggableProps, deleteTask } = props
 
     return (
         <div
@@ -26,7 +27,10 @@ const TodoCard = (props: Props) => {
                     {todo.title}
                 </p>
 
-                <button className="minusButtonContainer">
+                <button 
+                    className="minusButtonContainer"
+                    onClick={() => deleteTask(index, todo, id)}
+                >
                     <XCircleIcon className="mr-5 w-8 h-8"/>
                 </button>
             </div>

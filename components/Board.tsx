@@ -50,8 +50,6 @@ const Board = () => {
                 id: endColumnIndex[0],
                 todos: endColumnIndex[1].todos
             }
-            console.log("startColumn",startColumn)
-            console.log("endColumn",endColumn)
     
             if(!startColumn || !endColumn) return
             if(source.index === destination.index && startColumn === endColumn) return
