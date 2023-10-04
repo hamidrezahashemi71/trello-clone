@@ -1,6 +1,6 @@
 "use client"
 
-import { getSuggestion } from '@/lib/getSuggestion'
+import { getSuggestion } from '@/utility/getSuggestion'
 import { useBoardStore } from '@/store/BoardStore'
 import { UserCircleIcon } from '@heroicons/react/20/solid'
 import React, { useEffect, useState } from 'react'

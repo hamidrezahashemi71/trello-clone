@@ -4,7 +4,7 @@ import { useBoardStore } from '@/store/BoardStore'
 import { useEffect } from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import Column from './Column'
-import { StrictModeDroppable } from '@/lib/StrictModeDroppable'
+import { StrictModeDroppable } from '@/components/StrictModeDroppable'
 
 const Board = () => {
 

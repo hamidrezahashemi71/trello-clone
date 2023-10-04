@@ -1,9 +1,12 @@
 "use client"
 
-import { Fragment } from 'react'
+import { FormEvent, Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useModalStore } from '@/store/ModalStore'
 import { useBoardStore } from '@/store/BoardStore'
+import TaskTypeGroup from './TaskTypeGroup'
+import Image from 'next/image'
+import { PhotoIcon } from '@heroicons/react/20/solid'
 
 const Modal = () => {
 
@@ -12,10 +15,26 @@ const Modal = () => {
         state.closeModal
     ])
 
-    const [newTaskInput, setNewTaskInput] = useBoardStore((state) => [
+    const [addTask, newTaskInput, setNewTaskInput, newTaskType, image, setImage] = useBoardStore((state) => [
+        state.addTask,
         state.newTaskInput,
-        state.setNewTaskInput
+        state.setNewTaskInput,
+        state.newTaskType,
+        state.image,
+        state.setImage
     ])
+
+    const imagePickerRef = useRef<HTMLInputElement>(null)
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if(!newTaskInput) return
+
+        addTask(newTaskInput, newTaskType, image)
+
+        setImage(null)
+        closeModal()
+    }
 
     return (
         <Transition
@@ -26,6 +45,7 @@ const Modal = () => {
             <Dialog
                 as='form'
                 onClose={closeModal}
+                onSubmit={handleSubmit}
                 className='relative z-10'
             >
                 <Transition.Child
@@ -51,7 +71,7 @@ const Modal = () => {
                             leaveFrom='opacity-100'
                             leaveTo='opacity-0'
                         >
-                            <Dialog.Panel dir='rtl' className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                            <Dialog.Panel dir='rtl' className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all'>
                                 <Dialog.Title
                                     as='h3'
                                     className='text-lg font-medium leading-6 text-gray-900 pb-2'
@@ -66,6 +86,50 @@ const Modal = () => {
                                         placeholder='عنوان وظیفه را وارد کنید...'
                                         className='w-full border border-gray-300 rounded-md outline-none p-5'
                                     />
+                                </div>
+
+                                <TaskTypeGroup />
+
+                                <div className='mt-2'>
+                                    <button 
+                                        type='button'
+                                        className='w-full border border-gray-300 rounded-md outline-none p-5 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
+                                        onClick={() => imagePickerRef.current?.click()}
+                                        >
+                                        <PhotoIcon 
+                                            className='w-6 h-6 ml-2 inline-block'
+                                        />
+                                        {'بارگزاری عکس'}
+                                    </button>
+                                    {image && (
+                                        <Image
+                                            src={URL.createObjectURL(image)}
+                                            alt='آپلود عکس'
+                                            width={200}
+                                            height={200}
+                                            className='w-full h-44 object-cover mt-2 filter hover:grayscale transition-all duration-150 cursor-not-allowed'
+                                            onClick={() => setImage(null)}
+                                        />
+                                    )}
+                                    <input 
+                                        type="file"
+                                        ref={imagePickerRef}
+                                        hidden
+                                        onChange={(e) => {
+                                            if(!e.target.files![0].type.startsWith("image/")) return
+                                            setImage(e.target.files![0])
+                                        }} 
+                                    />
+                                </div>
+
+                                <div className='mt-2'>
+                                    <button
+                                        type='submit'
+                                        disabled={!newTaskInput}
+                                        className='inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed'
+                                    >
+                                        {'اضافه کردن وظیفه'}
+                                    </button>
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
