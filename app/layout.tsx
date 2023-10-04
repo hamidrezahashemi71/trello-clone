@@ -1,3 +1,4 @@
+import Modal from '@/components/Modal'
 import './globals.css'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" dir='ltr'>
       <body className={`${sahel.variable} font-sans bg-background`}>
         {children}
+        <Modal />
       </body>
     </html>
   )
