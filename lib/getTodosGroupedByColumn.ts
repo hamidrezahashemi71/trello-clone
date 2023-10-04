@@ -1,6 +1,7 @@
-import { databases } from "@/appwrite"
+import { databases } from "@/config/appwrite"
 
 export const getTodosGroupedByColumn = async() => {
+    
     const data = await databases.listDocuments(
         process.env.NEXT_PUBLIC_DATABASE_ID!,
         process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!
@@ -27,8 +28,6 @@ export const getTodosGroupedByColumn = async() => {
         return acc
 
     }, new Map<TypedColumn, Column>) 
-    // console.log("TODOS", todos)
-    // console.log("COLUMNS", columns)
 
     // if columns does not have todo, inprogress or done, add them with empty array
     const columnTypes: TypedColumn[] = ['todo', 'inprogress', 'done']

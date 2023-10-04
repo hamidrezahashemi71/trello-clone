@@ -1,4 +1,4 @@
-import { databases } from '@/appwrite'
+import { databases } from '@/config/appwrite'
 import { getTodosGroupedByColumn } from '@/lib/getTodosGroupedByColumn'
 import { create } from 'zustand'
 
