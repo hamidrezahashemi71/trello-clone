@@ -11,7 +11,7 @@ export const getSuggestion = async(board: Board) => {
         body: JSON.stringify({ todos })
     })
 
-    if (response.ok) {
+    if (response.ok && response.status !== 429) {
         const GPTdata = await response.json()
         const { content } = GPTdata
         return content
